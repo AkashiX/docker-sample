@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+    server:
+      build: ./server
+      ports:
+            - "7001:7001"
+      volumes:
+            - "./server:/src/app"
+      container_name: sample_server
+      command: npm run start_on_docker
+      
+    dashboard:
+      build: ./dashboard
+      ports:
+            - "8000:80"
+      container_name: sample_dashboard
