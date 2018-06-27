@@ -1,20 +1,20 @@
 version: '2'
 
 services:
-      server:
-            build: ./server
-            ports:
-                  - 7001:7001
-            volumes:
-                  - ./server:/src/app
-            container_name: sample_server
-            command: npm run start_on_docker
+      # server:
+      #       build: ./server
+      #       ports:
+      #             - 7001:7001
+      #       volumes:
+      #             - ./server:/src/app
+      #       container_name: sample_server
+      #       command: npm run start_on_docker
 
-      dashboard:
-            build: ./dashboard
-            ports:
-                  - 8000:80
-            container_name: sample_dashboard
+      # dashboard:
+      #       build: ./dashboard
+      #       ports:
+      #             - 8000:80
+      #       container_name: sample_dashboard
 
       mysql:
             build: ./mysql
@@ -22,7 +22,8 @@ services:
                   - 3306:3306
             container_name: sample_mysql
             volumes:
-                  - ~/db_data:/var/lib/mysql
+                  - ~/mysql/data:/var/lib/mysql
+                  - ~/mysql/log:/var/log/mysql
             environment:
                   MYSQL_ROOT_PASSWORD: root
                   # MYSQL_DATABASE: cg_apiserver
