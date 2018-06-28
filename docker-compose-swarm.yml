@@ -2,7 +2,7 @@ version: '3'
 
 services:
       server:
-            image: 624516198/sample_mysql:v1
+            image: 624516198/sample_server:v1
             networks:
                   - net
             deploy:
