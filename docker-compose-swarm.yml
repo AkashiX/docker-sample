@@ -2,7 +2,7 @@ version: '3'
 
 services:
       server:
-            image: docker-sample_server
+            image: 624516198/sample_mysql:v1
             networks:
                   - net
             deploy:
@@ -19,7 +19,7 @@ services:
             command: npm run start_on_docker
 
       mysql:
-            image: docker-sample_mysql
+            image: 624516198/sample_mysql:v1
             networks:
                   - net
             deploy:
