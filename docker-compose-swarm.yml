@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+      server:
+            image: docker-sample_server
+            networks:
+                  - net
+            deploy:
+                  mode: replicated
+                  replicas: 3
+                  placement:
+                        constraints: [node.role == worker]
+            ports:
+                  - 7001:7001
+            depends_on:
+                  - mysql
+            environment:
+                  - DATABASE_HOST=mysql
+            command: npm run start_on_docker
+
+      mysql:
+            image: docker-sample_mysql
+            networks:
+                  - net
+            deploy:
+                  placement:
+                        constraints: [node.role == manager]
+            volumes:
+                  - ~/mysql/data:/var/lib/mysql
+                  - ~/mysql/log:/var/log/mysql
+            environment:
+                  MYSQL_ROOT_PASSWORD: root
+
+      visualizer:
+            image: dockersamples/visualizer:stable
+            ports:
+                  - "8080:8080"
+            stop_grace_period: 1m30s
+            volumes:
+                  - "/var/run/docker.sock:/var/run/docker.sock"
+            deploy:
+                  placement:
+                        constraints: [node.role == manager]
+
+networks:
+      net:
+            driver: overlay
