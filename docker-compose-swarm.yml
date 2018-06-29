@@ -16,7 +16,7 @@ services:
 #       replicas: 3
 
   db:
-    image: mysql:5.7
+    image: mysql
     networks:
        - overlay
     volumes:
