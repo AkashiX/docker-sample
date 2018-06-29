@@ -1,27 +1,27 @@
 version: '3'
 
 services:
-      server:
-            image: 624516198/sample_server:v1
-            networks:
-                  - net
-            deploy:
-                  mode: replicated
-                  replicas: 3
-                  placement:
-                        constraints: [node.role == worker]
-            ports:
-                  - 7001:7001
-            depends_on:
-                  - mysql
-            environment:
-                  - DATABASE_HOST=mysql
-            command: npm run start_on_docker
+      # server:
+      #       image: ${DOCKER_USER}/sample_server:v1
+      #       networks:
+      #             - net
+      #       deploy:
+      #             mode: replicated
+      #             replicas: 3
+      #             placement:
+      #                   constraints: [node.role == worker]
+      #       ports:
+      #             - 7001:7001
+      #       depends_on:
+      #             - mysql
+      #       environment:
+      #             - DATABASE_HOST=mysql
+      #       command: npm run start_on_docker
 
       mysql:
             image: 624516198/sample_mysql:v1
             networks:
-                  - net
+                  - overlay
             deploy:
                   placement:
                         constraints: [node.role == manager]
@@ -41,7 +41,3 @@ services:
             deploy:
                   placement:
                         constraints: [node.role == manager]
-
-networks:
-      net:
-            driver: overlay
