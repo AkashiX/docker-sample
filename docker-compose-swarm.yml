@@ -15,17 +15,16 @@ services:
 #       mode: replicated
 #       replicas: 3
 
-  db:
+  database:
     image: ${DB_IMAGE}
+    ports:
+      - "3306:3306"
     networks:
        - overlay
     volumes:
       - db-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: somewordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: root
     deploy:
       placement:
         constraints: [node.role == manager]
