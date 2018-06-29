@@ -1,33 +1,40 @@
 version: "3"
 
 services:
-#   wordpress:
-#     image: wordpress
-#     ports:
-#       - 80:80
-#     networks:
-#       - overlay
-#     environment:
-#       WORDPRESS_DB_HOST: db:3306
-#       WORDPRESS_DB_USER: wordpress
-#       WORDPRESS_DB_PASSWORD: wordpress
-#     deploy:
-#       mode: replicated
-#       replicas: 3
+  server:
+    image: ${IMAGE_SERVER}
+    ports:
+      - 7001:7001
+    networks: 
+      - overlay
+    depends_on:
+      - database
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == worker] 
+    command: npm run start_on_docker
 
   database:
-    image: ${DB_IMAGE}
+    image: ${IMAGE_DB}
     ports:
       - "3306:3306"
     networks:
-       - overlay
+      - overlay
     volumes:
       - db-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
     deploy:
+      restart_policy:
+        condition: on-failure
       placement:
-        constraints: [node.role == manager]
+        constraints: [node.role == manager] 
 
   visualizer:
     image: dockersamples/visualizer:stable
